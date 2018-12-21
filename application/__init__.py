@@ -1,9 +1,7 @@
 import os
-
 from flask import Flask, render_template
 from werkzeug.contrib.fixers import ProxyFix
-from db import session
-from .errors import page_not_found
+from application import db, errors
 
 
 def create_app(test_config=None):
@@ -29,20 +27,18 @@ def create_app(test_config=None):
     # proxy fix
     app.wsgi_app = ProxyFix(app.wsgi_app)
 
-    # register index
-    @app.route("/status")
-    def status():
-        return "So far so good"
+    # register the database commands
+    app.cli.add_command(db.init)
 
     @app.teardown_appcontext
     def shutdown_session(exception=None):
-        session.remove()
+        db.session.remove()
 
     # HTTP errors
-    app.register_error_handler(404, page_not_found)
+    app.register_error_handler(404, errors.page_not_found)
 
     # blueprints
-
-    app.add_url_rule("/", endpoint="index")
+    from application import home
+    app.register_blueprint(home.bp)
 
     return app
