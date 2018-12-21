@@ -5,7 +5,14 @@ from application import db, errors
 
 
 def create_app(test_config=None):
-    # create and configure the app
+    """ Flask app factory that creates and configure the app.
+
+    Args:
+        test_config (str): python configuration filepath
+
+    Returns: Flask application
+
+    """
     app = Flask(__name__,
                 instance_relative_config=True,
                 instance_path=os.path.abspath("./instance"))

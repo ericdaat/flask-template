@@ -13,3 +13,4 @@ build/
 *.swp
 *~
 *.sqlite
+docs/build
