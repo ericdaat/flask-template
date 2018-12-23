@@ -20,6 +20,14 @@ FLASK_APP=application flask init-db;
 FLASK_APP=application FLASK_DEBUG=True flask run;
 ```
 
+## Using Docker
+If you wish to use Docker for running the app, run the following:
+
+```
+docker-compose build;
+docker-compose up -d app;
+```
+
 ## Docs
 ```
 cd docs;
