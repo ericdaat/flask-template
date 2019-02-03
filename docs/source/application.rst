@@ -1,6 +1,11 @@
 application package
 ===================
 
+.. automodule:: application
+    :members:
+    :undoc-members:
+    :show-inheritance:
+
 Submodules
 ----------
 
@@ -28,11 +33,12 @@ application.home module
     :undoc-members:
     :show-inheritance:
 
+application.wsgi module
+-----------------------
 
-Module contents
----------------
-
-.. automodule:: application
+.. automodule:: application.wsgi
     :members:
     :undoc-members:
     :show-inheritance:
+
+

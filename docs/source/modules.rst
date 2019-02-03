@@ -1,6 +1,5 @@
-flask-template
-==============
-
+application
+===========
 
 .. toctree::
    :maxdepth: 4
