@@ -1,6 +1,7 @@
 # Flask Web Application template
 
 [![Documentation Status](https://readthedocs.org/projects/flask-template/badge/?version=latest)](https://flask-template.readthedocs.io/en/latest/?badge=latest)
+[![CircleCI](https://circleci.com/gh/ericdaat/flask-template.svg?style=svg)](https://circleci.com/gh/ericdaat/flask-template)
 
 
 This is a template for a basic Flask web application that responds 
