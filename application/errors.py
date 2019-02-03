@@ -10,4 +10,4 @@ def page_not_found(e):
     Returns: 404 error template
 
     """
-    return render_template('errors/404.html'), 404
+    return render_template('errors/404.html', error=e), 404
