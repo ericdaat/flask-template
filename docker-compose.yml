@@ -6,15 +6,13 @@ services:
   app:
     image: flask-template_python:latest
     ports:
-     - 5000:5000
+     - 8080:8080
     volumes:
      - ./application:/src/application
      - ./foo.sqlite:/src/foo.sqlite
     working_dir: /src/
     environment:
       PYTHONPATH: /src
-      FLASK_APP: application
-      FLASK_DEBUG: "true"
     env_file:
       - credentials.env
-    command: ["flask", "run", "--host=0.0.0.0"]
+    command: ["python", "application/wsgi.py"]
