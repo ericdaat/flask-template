@@ -23,9 +23,7 @@ Base = declarative_base()
 Base.query = session.query_property()
 
 
-@click.command('init-db')
-@with_appcontext
-def init():
+def init_db():
     """ Init the database, drops then creates all tables.
     """
     if not database_exists(engine.url):
@@ -33,6 +31,14 @@ def init():
 
     Base.metadata.drop_all(engine)
     Base.metadata.create_all(engine)
+
+
+@click.command('init-db')
+@with_appcontext
+def init_db_command():
+    """Clear existing data and create new tables."""
+    init_db()
+    click.echo('Initialized the database.')
 
 
 def insert(to_insert):

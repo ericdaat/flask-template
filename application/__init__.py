@@ -13,18 +13,19 @@ def create_app(test_config=None):
     Returns: Flask application
 
     """
-    app = Flask(__name__,
-                instance_relative_config=True,
-                instance_path=os.path.abspath("./instance"))
+    app = Flask(__name__, instance_relative_config=True)
 
-    app.config.from_mapping(SECRET_KEY="dev")
+    app.config.from_mapping(
+        # a default secret that should be overridden by instance config
+        SECRET_KEY='dev'
+    )
 
     if test_config is None:
         # load the instance config, if it exists, when not testing
         app.config.from_pyfile("config.py", silent=True)
     else:
         # load the test config if passed in
-        app.config.from_mapping(test_config)
+        app.config.update(test_config)
 
     try:
         os.makedirs(app.instance_path)
@@ -35,7 +36,7 @@ def create_app(test_config=None):
     app.wsgi_app = ProxyFix(app.wsgi_app)
 
     # register the database commands
-    app.cli.add_command(db.init)
+    app.cli.add_command(db.init_db_command)
 
     @app.teardown_appcontext
     def shutdown_session(exception=None):
