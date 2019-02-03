@@ -36,7 +36,8 @@ jobs:
           name: run tests
           command: |
             . venv/bin/activate
-            echo "running tests"
+            export PYTHONPATH="."
+            pytest tests
 
       - store_artifacts:
           path: test-reports
