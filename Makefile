@@ -1,21 +1,21 @@
 #!make
 SHELL=/bin/bash
 
-include credentials.env
-export $(shell sed 's/=.*//' credentials.env)
-
 install:
-	[ -e venv ] && rm -rf venv;
-	cp credentials.env.dist credentials.env;
+	[ -e venv ] && rm -rf venv; \
 	virtualenv venv; \
 	source venv/bin/activate; \
  	pip install -r requirements.txt; \
+ 	cp -n credentials.env.dist credentials.env; \
  	docker-compose build; \
- 	cp -n db-credentials.env.dist db-credentials.env; \
 	echo "done"; \
 
-start:
+start-docker:
 	docker-compose up -d app;
+
+start-flask:
+	source venv/bin/activate;
+	FLASK_APP=application FLASK_DEBUG=True flask run;
 
 stop:
 	docker-compose down;

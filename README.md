@@ -20,7 +20,7 @@ Don't hesitate to contribute!
 Create a virtual environment and install the requirements.
 
 ```
-make install
+make install;
 ```
 
 ## Run
@@ -28,16 +28,14 @@ Init the database and run the application.
 
 For debug, without docker:
 ```
-source venv/bin/activate;
-FLASK_APP=application flask init-db;
-FLASK_APP=application FLASK_DEBUG=True flask run;
+make start-flask
 ```
 
 ## Using Docker
 If you wish to use Docker for deploying the app, run the following:
 
 ```
-make start
+make start-docker
 ```
 
 ## Docs
