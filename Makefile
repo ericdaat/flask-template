@@ -5,7 +5,8 @@ include credentials.env
 export $(shell sed 's/=.*//' credentials.env)
 
 install:
-	rm -rf venv; \
+	[ -e venv ] && rm -rf venv;
+	cp credentials.env.dist credentials.env;
 	virtualenv venv; \
 	source venv/bin/activate; \
  	pip install -r requirements.txt; \

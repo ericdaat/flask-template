@@ -14,3 +14,4 @@ build/
 *~
 *.sqlite
 docs/build
+credentials.env

@@ -20,14 +20,15 @@ Don't hesitate to contribute!
 Create a virtual environment and install the requirements.
 
 ```
-virtualenv venv -p python3;
-source venv/bin/activate;
-pip install -r requirements.txt
+make install
 ```
 
 ## Run
 Init the database and run the application.
+
+For debug, without docker:
 ```
+source venv/bin/activate;
 FLASK_APP=application flask init-db;
 FLASK_APP=application FLASK_DEBUG=True flask run;
 ```
@@ -36,17 +37,20 @@ FLASK_APP=application FLASK_DEBUG=True flask run;
 If you wish to use Docker for deploying the app, run the following:
 
 ```
-docker-compose build;
-docker-compose up -d app;
+make start
 ```
 
 ## Docs
 Automatically create and build the code documentation using Sphinx.
 You can use [Read the Docs](https://readthedocs.org/) to build and host the documentation,
 like I did [here](https://flask-template.readthedocs.io/en/latest/).
+
 ```
-cd docs;
-sphinx-apidoc .. -o source;
-sphinx-build source build;
-open build/index.html;
+make docs
+```
+
+## Clone the template to another directory
+
+```
+./install.sh /path/to/your/dir
 ```
