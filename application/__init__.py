@@ -1,10 +1,12 @@
 import os
-from flask import Flask, render_template
+import logging
+from flask import Flask
 from werkzeug.contrib.fixers import ProxyFix
-from application import db, errors
+from application import errors
+from application.model import db, init_db_command
 
 
-def create_app(test_config=None):
+def create_app():
     """ Flask app factory that creates and configure the app.
 
     Args:
@@ -14,33 +16,21 @@ def create_app(test_config=None):
 
     """
     app = Flask(__name__, instance_relative_config=True)
+    app.logger.setLevel(logging.DEBUG)
+    app.config.from_object('application.config.DefaultConfig')
+    db.init_app(app)
 
-    app.config.from_mapping(
-        # a default secret that should be overridden by instance config
-        SECRET_KEY='dev'
-    )
-
-    if test_config is None:
-        # load the instance config, if it exists, when not testing
-        app.config.from_pyfile("config.py", silent=True)
-    else:
-        # load the test config if passed in
-        app.config.update(test_config)
-
+    # instance dir
     try:
         os.makedirs(app.instance_path)
     except OSError:
         pass
 
+    # register cli commands
+    app.cli.add_command(init_db_command)
+
     # proxy fix
     app.wsgi_app = ProxyFix(app.wsgi_app)
-
-    # register the database commands
-    app.cli.add_command(db.init_db_command)
-
-    @app.teardown_appcontext
-    def shutdown_session(exception=None):
-        db.session.remove()
 
     # HTTP errors
     app.register_error_handler(404, errors.page_not_found)

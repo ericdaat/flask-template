@@ -23,6 +23,11 @@ Create a virtual environment and install the requirements.
 make install;
 ```
 
+```
+export FLASK_APP=application
+flask init-db
+```
+
 ## Run
 Init the database and run the application.
 
