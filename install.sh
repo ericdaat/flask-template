@@ -14,6 +14,11 @@ rsync -av "$(dirname "$0")/" "$1" \
 	--exclude instance \
 	--exclude .idea \
 	--exclude .pytest_cache \
-	--exclude install.sh
+	--exclude install.sh \
+    --exclude README.md;
+
+cd $1;
+echo "#$(basename $1)" > README.md;
+git init;
 
 exit 0
