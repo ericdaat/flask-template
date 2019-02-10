@@ -1,8 +1,12 @@
 #!/bin/bash
 
 # usage: ./install.sh /path/to/dir
+if [ -z "$1" ] || [ ! -d $(dirname "$1") ]; then
+    echo "Non valid path"
+    exit 1
+fi
 
-rsync -av . "$1" \
+rsync -av "$(dirname "$0")/" "$1" \
 	--exclude venv \
 	--exclude .git \
 	--exclude docs/build \
@@ -11,3 +15,5 @@ rsync -av . "$1" \
 	--exclude .idea \
 	--exclude .pytest_cache \
 	--exclude install.sh
+
+exit 0
