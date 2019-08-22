@@ -1,12 +1,13 @@
 import os
-import logging
+
 from flask import Flask
 from werkzeug.contrib.fixers import ProxyFix
-from application import errors
-from application.model import db, init_db_command
+
+from application import errors, cli
+from application.model import db, session
 
 
-def create_app():
+def create_app(config=None):
     """ Flask app factory that creates and configure the app.
 
     Args:
@@ -15,9 +16,12 @@ def create_app():
     Returns: Flask application
 
     """
-    app = Flask(__name__, instance_relative_config=True)
-    app.logger.setLevel(logging.DEBUG)
-    app.config.from_object('application.config.DefaultConfig')
+    app = Flask(__name__)
+    app.config.from_pyfile('config.py')
+
+    if config:
+        app.config.update(config)
+
     db.init_app(app)
 
     # instance dir
@@ -27,7 +31,7 @@ def create_app():
         pass
 
     # register cli commands
-    app.cli.add_command(init_db_command)
+    app.cli.add_command(cli.init_db_command)
 
     # proxy fix
     app.wsgi_app = ProxyFix(app.wsgi_app)
@@ -36,7 +40,12 @@ def create_app():
     app.register_error_handler(404, errors.page_not_found)
 
     # blueprints
-    from application import home
+    from application.blueprints import home
     app.register_blueprint(home.bp)
+
+    # request handlers
+    @app.after_request
+    def commit_db_session(response):
+        session.commit()
 
     return app
