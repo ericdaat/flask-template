@@ -1,24 +1,28 @@
-#!make
-SHELL=/bin/bash
+venv: venv/bin/activate
 
-install:
-	[ -e venv ] && rm -rf venv; \
-	virtualenv venv; \
-	source venv/bin/activate; \
- 	pip install -r requirements.txt; \
- 	cp -n credentials.env.dist credentials.env; \
- 	docker-compose build; \
-	echo "done"; \
+venv/bin/activate: requirements.txt
+	test -d venv || virtualenv venv
+	. venv/bin/activate; pip install -Ur requirements.txt
+	touch venv/bin/activate
 
-start-docker:
-	docker-compose up -d app;
+build:
+	docker-compose build;
 
-start-flask:
-	source venv/bin/activate;
-	FLASK_APP=application FLASK_DEBUG=True flask run;
+tests:
+	. venv/bin/activate; \
+	pytest tests;
 
-stop:
-	docker-compose down;
+
+start:
+	docker-compose up -d;
+
+start-debug: venv
+	docker-compose up -d postgres metabase;
+	. venv/bin/activate; \
+	FLASK_APP="application" \
+	FLASK_DEBUG=True \
+	DATABASE_URL=postgresql://user:password@localhost/webstats \
+	flask run;
 
 docs:
 	cd docs; \

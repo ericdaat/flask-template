@@ -19,8 +19,8 @@ Don't hesitate to contribute!
 ## Install
 Create a virtual environment and install the requirements.
 
-```
-make install;
+``` bash
+make venv/bin/activate
 ```
 
 ```
