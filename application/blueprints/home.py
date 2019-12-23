@@ -12,4 +12,4 @@ def index():
     users = User.query.all()
     logging.info("{0} user(s) in the db".format(len(users)))
 
-    return flask.render_template("home/home.html")
+    return flask.render_template("home/index.html")

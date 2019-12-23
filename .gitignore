@@ -10,8 +10,11 @@ dist/
 build/
 *.egg-info/
 .idea/
+.vscode/
 *.swp
 *~
 *.sqlite
 docs/build
 credentials.env
+*.db
+*.sqlite3
