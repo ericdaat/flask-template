@@ -10,7 +10,7 @@
    :maxdepth: 2
    :caption: Contents:
 
-   modules
+   application
 
 
 Indices and tables
