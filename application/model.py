@@ -1,31 +1,21 @@
-import click
-from flask.cli import with_appcontext
+import uuid
+from datetime import datetime
+
 from flask_sqlalchemy import SQLAlchemy
+from sqlalchemy_utils import EmailType, UUIDType
 
 db = SQLAlchemy()
-
-
-def init_db():
-    db.drop_all()
-    db.create_all()
-
-    # add a user
-    admin = User(username='admin', email='admin@example.com')
-    db.session.add(admin)
-    db.session.commit()
-
-
-@click.command('init-db')
-@with_appcontext
-def init_db_command():
-    init_db()
-    click.echo('Initialized the database.')
+session = db.session
 
 
 class User(db.Model):
-    id = db.Column(db.Integer, primary_key=True)
+    __tablename__ = "user"
+
+    uuid = db.Column(UUIDType, primary_key=True, default=uuid.uuid4, nullable=False)
+    created_at = db.Column(db.DateTime, default=datetime.utcnow)
+
     username = db.Column(db.String(80), unique=True, nullable=False)
-    email = db.Column(db.String(120), unique=True, nullable=False)
+    email = db.Column(EmailType(), unique=True, nullable=False)
 
     def __repr__(self):
         return '<User %r>' % self.username

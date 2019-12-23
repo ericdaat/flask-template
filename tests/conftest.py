@@ -1,16 +1,20 @@
 import pytest
-from application import create_app
-from application.model import init_db
+from application.app import create_app
+from application.admin import init_db
 
 
 @pytest.fixture
 def app():
-    app = create_app()
+    app = create_app(dict(
+        TESTING=True,
+        SQLALCHEMY_DATABASE_URI='sqlite:///:memory:',
+        SERVER_NAME='127.1'
+    ))
 
     with app.app_context():
         init_db()
 
-    yield app
+        yield app
 
 
 @pytest.fixture
