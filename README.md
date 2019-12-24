@@ -24,28 +24,26 @@ Create a virtual environment and install the requirements.
 make venv/bin/activate
 ```
 
+Init the database by creating all tables.
+
 ``` bash
-export FLASK_APP=application
+export DATABASE_URL=sqlite:///../db.sqlite3
+export FLASK_APP="application.app"
 flask init-db
 ```
 
 ## Run
 
-Init the database and run the application.
+Run the application debug mode.
 
 ``` bash
-export FLASK_APP="application.app"
-export FLASK_DEBUG=True
-export DATABASE_URL=sqlite:///../db.sqlite3
-flask run
+FLASK_DEBUG=True flask run
 ```
-
-## Using Docker
 
 If you wish to use Docker for deploying the app, run the following:
 
 ``` bash
-make start-docker
+docker-compose up -d
 ```
 
 ## Docs
