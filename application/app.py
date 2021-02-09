@@ -1,7 +1,6 @@
 import os
 
 from flask import Flask
-from werkzeug.contrib.fixers import ProxyFix
 
 from application import errors, cli
 from application.model import db, session
@@ -32,9 +31,6 @@ def create_app(config=None):
 
     # register cli commands
     app.cli.add_command(cli.init_db_command)
-
-    # proxy fix
-    app.wsgi_app = ProxyFix(app.wsgi_app)
 
     # HTTP errors
     app.register_error_handler(404, errors.page_not_found)
